@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <div className="flex flex-col h-25 w-full gap-4 rounded-lg bg-white p-8 shadow-lg items-center">
+    <div className="flex flex-col h-25 w-full gap-4  bg-white p-8 shadow-lg items-center sticky top-0 z-50 bg-white w-full border-b">
       <div className="flex justify-between items-center w-full">
         <div>
           <p style={{ fontFamily: "Satisfy" }} className="text-2xl text-black">

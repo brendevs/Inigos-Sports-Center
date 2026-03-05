@@ -11,7 +11,7 @@ export default function CourtsCard({ court }: Props) {
       <img
         src={court.image}
         alt={court.name}
-        className="h-60 w-full border-1 rounded-md object-cover"
+        className="h-60 w-full border-1 rounded-md object-cover shadow-md"
       />
 
       <p className="text-black font-sans font-bold mt-2">{court.name}</p>
@@ -50,7 +50,7 @@ export default function CourtsCard({ court }: Props) {
       </div>
 
       <div className="mt-2 bg-black h-10 w-full rounded-md flex justify-center items-center">
-        <p className="font-sans text-white text-lg text-xs text-black font-bold">
+        <p className="font-sans text-white text-lg text-xs text-black ">
           Book Now
         </p>
       </div>
