@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ROUTES } from "./src/constant/routes";
 
 export default function Header() {
   return (
@@ -11,7 +12,7 @@ export default function Header() {
         </div>
 
         <div className="flex gap-10">
-          <Link href="/court">
+          <Link href={ROUTES.COURTS}>
             <div className="flex gap-2 text-gray-500 cursor-pointer hover:text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +26,7 @@ export default function Header() {
             </div>
           </Link>
 
-          <Link href="/booking">
+          <Link href={ROUTES.BOOKINGS}>
             <div className="flex text-gray-500 cursor-pointer hover:text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +40,7 @@ export default function Header() {
             </div>
           </Link>
 
-          <Link href="/openPlay">
+          <Link href={ROUTES.OPEN_PLAY}>
             <div className="flex cursor-pointer hover:text-black">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

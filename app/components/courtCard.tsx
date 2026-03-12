@@ -1,4 +1,6 @@
 import { Court } from "../types/court";
+import Link from "next/link";
+import { ROUTES } from "../src/constant/routes";
 
 interface Props {
   court: Court;
@@ -49,11 +51,11 @@ export default function CourtsCard({ court }: Props) {
         </div>
       </div>
 
-      <div className="mt-2 bg-black h-10 w-full rounded-md flex justify-center items-center">
-        <p className="font-sans text-white text-lg text-xs text-black ">
-          Book Now
-        </p>
-      </div>
+      <Link href={ROUTES.COURT_DETAILS(court.id)}>
+        <div className="mt-2 bg-black h-10 w-full rounded-md flex justify-center items-center cursor-pointer">
+          <p className="font-sans text-white text-xs">Book Now</p>
+        </div>
+      </Link>
     </div>
   );
 }
