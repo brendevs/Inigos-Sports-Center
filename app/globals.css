@@ -3,6 +3,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -56,7 +59,7 @@
 
 /* Body styling with combined fonts */
 body {
-  font-family: "Satisfy", Arial, Helvetica, sans-serif;
+  font-family: "var(--font-Helvetica)", Arial, Helvetica, sans-serif;
 }
 
 :root {
