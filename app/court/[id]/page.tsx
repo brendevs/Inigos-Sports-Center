@@ -1,5 +1,7 @@
 import { DatePickerDemo } from "../../components/Shadcn/datePicker";
 
+import TimePicker from "../../components/Other/timePicker";
+
 export default function Schedule() {
   return (
     <div className=" min-h-screen p-10 bg-gray-50 flex flex-col gap-6 bg-white font-sans">
@@ -10,13 +12,13 @@ export default function Schedule() {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
             className="size-3 text-gray-400"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="m8.25 4.5 7.5 7.5-7.5 7.5"
             />
           </svg>
@@ -34,7 +36,8 @@ export default function Schedule() {
           </div>
         </div>
         <div>
-          <div className="border-1 rounded-md  h-114 w-120 bg-gray-100"></div>
+          <TimePicker courtId={1} date={new Date()} />
+
           <p className="text-center mt-3 text-gray-400 font-light">
             Select Available time.
           </p>
