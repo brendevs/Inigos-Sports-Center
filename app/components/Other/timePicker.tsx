@@ -111,7 +111,7 @@ export default function TimePicker({ courtId, date }: Props) {
   };
 
   return (
-    <div className="rounded-sm h-110 w-120 p-3 overflow-y-auto scrollbar-hide">
+    <div className="rounded-sm h-112 w-70 p-3 overflow-y-auto scrollbar-hide">
       <style jsx>{`
         div::-webkit-scrollbar {
           display: none;

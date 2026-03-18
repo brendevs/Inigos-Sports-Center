@@ -4,6 +4,7 @@ export const ROUTES = {
   BOOKINGS: "/booking",
   OPEN_PLAY: "/openPlay",
 
-  // dynamic
   COURT_DETAILS: (id: number) => `/court/${id}`,
+  TIME: (id: number) => `/court/${id}/time`,
+  AVAILABLE: (id: number) => `/court/${id}/time/available`,
 };
