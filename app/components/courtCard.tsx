@@ -52,8 +52,10 @@ export default function CourtsCard({ court }: Props) {
       </div>
 
       <Link href={ROUTES.COURT_DETAILS(court.id)}>
-        <div className="mt-2 bg-black h-10 w-full rounded-md flex justify-center items-center cursor-pointer">
-          <p className="font-sans text-white text-xs">Book Now</p>
+        <div className="mt-2 bg-orange-600 h-10 w-full rounded-md flex justify-center items-center cursor-pointer transition-colors duration-400 hover:bg-black">
+          <p className="font-sans text-white text-xs transition-colors duration-300 hover:text-black">
+            Book Now
+          </p>
         </div>
       </Link>
     </div>

@@ -6,7 +6,10 @@ export default function Header() {
     <div className="flex flex-col h-25 w-full gap-4  bg-white p-8 shadow-lg items-center sticky top-0 z-50 bg-white w-full border-b">
       <div className="flex justify-between items-center w-full">
         <div>
-          <p style={{ fontFamily: "Satisfy" }} className="text-2xl text-black">
+          <p
+            style={{ fontFamily: "Satisfy" }}
+            className="text-2xl text-orange-600 "
+          >
             Iñigos
           </p>
         </div>
