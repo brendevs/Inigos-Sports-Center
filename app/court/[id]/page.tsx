@@ -11,8 +11,8 @@ export default function Schedule() {
   const router = useRouter();
   return (
     <div className="p-10 bg-gray-50 flex flex-col gap-6 bg-white font-sans">
-      <div className="flex flex-col md:flex-row gap-5 items-center">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-row md:flex-row gap-5 ">
+        <div className="flex gap-2">
           <Link className="flex gap-2" href={ROUTES.COURTS}>
             <h1 className="text-1xl text-gray-300 font-md font-sans">Courts</h1>
           </Link>
@@ -22,7 +22,7 @@ export default function Schedule() {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-5 w-5 text-gray-400 cursor-pointer"
+            className="h-5 w-5 text-gray-400 cursor-pointer mt-0.5"
           >
             <path
               strokeLinecap="round"
@@ -38,7 +38,7 @@ export default function Schedule() {
       <div className="flex justify-center gap-10">
         <div className="flex flex-col md:flex-row gap-10">
           <div>
-            <div className="h-120 w-120">
+            <div className="h-auto w-auto">
               <DatePickerDemo
                 selected={selectedDate || new Date()}
                 onSelect={setSelectedDate}
