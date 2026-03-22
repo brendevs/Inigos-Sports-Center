@@ -1,28 +1,38 @@
 export default function HistoryCard() {
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex w-[50%] h-14 border-2 border-gray-100 shadow-md rounded-full justify-between    ">
-        <div className="flex gap-2 ">
-          <div className="h-10 w-10 rounded-full bg-gray-300 flex justify-center items-center m-1.5"></div>
-          <p className="flex-col text-sm font-sans font-bold text-black p-4 ">
+    <div className="flex flex-col m-auto   px-4">
+      <div className="flex justify-between">
+        <p className=" m-4 text-gray-500 text-xs"> November 1, 2025 </p>
+        <div></div>
+      </div>
+
+      <div
+        className="flex flex-col md:flex-row w-full md:w-[80%] lg:w-[100%] 
+          border-2 border-gray-100 shadow-md rounded-2xl md:rounded-full 
+          justify-between p-3 md:p-0 flex-wrap md:flex-nowrap"
+      >
+        {/* Left */}
+        <div className="flex gap-2 items-center p-1 flex-shrink-0">
+          <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 flex justify-center items-center"></div>
+
+          <p className="text-sm font-sans font-bold text-black">
             Pickle Ball Court
           </p>
         </div>
-        <div className="flex gap-10 items-center p-5 ">
-          <div className="flex">
-            <p className=" flex text-xs font-sans text-gray-500 ">
-              Play time: 1hr
-            </p>
-          </div>
 
-          <p className="flex-col text-xs font-sans text-gray-500  ">
-            9:00pm - 10:00pm
-          </p>
-          <p className="flex-col text-xs font-sans text-gray-500  ">
-            Jan 21, 2024
-          </p>
-          <div className="flex gap-2 items-center">
-            <p className="text-xs font-sans text-gray-500">paid</p>
+        {/* Right */}
+        <div
+          className="flex flex-wrap md:flex-nowrap gap-3 md:gap-10 
+            items-start md:items-center mt-2  ml-4 md:mt-0 text-xs text-gray-500"
+        >
+          <p>Game time: 1hr</p>
+
+          <p>9:00pm - 10:00pm</p>
+
+          <p>Jan 21, 2024</p>
+
+          <div className="flex gap-2 items-center mr-4 flex-shrink-0">
+            <p>paid</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"

@@ -35,28 +35,24 @@ export default function Schedule() {
         <h1 className="text-1xl font-semibold font-sans">Schedule</h1>
       </div>
 
-      <div className="flex justify-center gap-10">
-        <div className="flex flex-col md:flex-row gap-10">
-          <div>
-            <div className="h-auto w-auto">
-              <DatePickerDemo
-                selected={selectedDate || new Date()}
-                onSelect={setSelectedDate}
-              />
-              <p className="text-center mt-3 text-gray-400 font-light">
-                Select your date.
-              </p>
-            </div>
+      <div className="flex  justify-center gap-10">
+        <div className="flex-col">
+          <div className="h-auto w-70">
+            <DatePickerDemo
+              selected={selectedDate || new Date()}
+              onSelect={setSelectedDate}
+            />
+          </div>
+          <p className="text-center mt-3 text-gray-400 ">Select your date.</p>
 
-            {/* Back button */}
-            <div className="mt-4">
-              <button
-                onClick={() => router.push(ROUTES.TIME(1))}
-                className="bg-gray-200 h-10 w-32 rounded-md flex justify-center items-center cursor-pointer"
-              >
-                <p className="font-sans text-gray-700 text-sm">Next</p>
-              </button>
-            </div>
+          {/* Back button */}
+          <div className="mt-4 flex justify-center ">
+            <button
+              onClick={() => router.push(ROUTES.TIME(1))}
+              className="bg-orange-600 h-10 w-32 rounded-md flex justify-center items-center cursor-pointer shadow-md"
+            >
+              <p className="font-sans text-white text-sm">Next</p>
+            </button>
           </div>
         </div>
       </div>

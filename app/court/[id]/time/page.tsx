@@ -47,12 +47,12 @@ export default function Time() {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 flex justify-center ">
         <button
-          onClick={() => router.push(ROUTES.AVAILABLE(id))} // ✅ FIXED
-          className="bg-gray-200 h-10 w-32 rounded-md flex justify-center items-center cursor-pointer"
+          onClick={() => router.push(ROUTES.AVAILABLE(1))}
+          className="bg-orange-600 h-10 w-32 rounded-md flex justify-center items-center cursor-pointer shadow-md"
         >
-          <p className="font-sans text-gray-700 text-sm">Next</p>
+          <p className="font-sans text-white text-sm">Next</p>
         </button>
       </div>
     </div>

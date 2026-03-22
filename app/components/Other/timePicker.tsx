@@ -111,7 +111,7 @@ export default function TimePicker({ courtId, date }: Props) {
   };
 
   return (
-    <div className="rounded-sm h-112 w-70 p-3 overflow-y-auto scrollbar-hide">
+    <div className="rounded-sm h-100 w-70 p-3 overflow-y-auto scrollbar-hide">
       <style jsx>{`
         div::-webkit-scrollbar {
           display: none;
@@ -122,7 +122,7 @@ export default function TimePicker({ courtId, date }: Props) {
         <div
           key={slot.time}
           onClick={() => handleClick(index)}
-          className={`border rounded-md h-10 w-60 mx-auto flex items-center justify-between px-4 mb-2 cursor-pointer ${
+          className={`border rounded-full h-10 w-60 mx-auto flex items-center justify-between px-4 mb-2 cursor-pointer ${
             slot.available
               ? "bg-white border-black  "
               : "border-gray-300 text-gray-200 cursor-not-allowed "
