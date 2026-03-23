@@ -1,150 +1,84 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { bookings } from "../../../Data/reservation"; // Adjust path
+import { useEffect, useState } from "react";
+import { api } from "../../../mockBackend/api";
 
-interface TimeSlot {
+type Slot = {
   time: string;
   available: boolean;
-}
+};
 
 interface Props {
-  courtId: number;
-  date: string | Date;
+  sportId: number;
+  date: string;
 }
 
-export default function TimePicker({ courtId, date }: Props) {
-  const [startIndex, setStartIndex] = useState<number | null>(null);
-  const [endIndex, setEndIndex] = useState<number | null>(null);
-  const [times, setTimes] = useState<TimeSlot[]>([]);
+export default function TimePicker({ sportId, date }: Props) {
+  const [slots, setSlots] = useState<Slot[]>([]);
 
-  const formattedDate =
-    typeof date === "string"
-      ? date
-      : date instanceof Date && !isNaN(date.getTime())
-        ? date.toISOString().split("T")[0]
-        : "";
+  // 1. create all slots
+  const createSlots = () => {
+    const result: Slot[] = [];
 
-  const getSlotsBetween = (start: string, end: string) => {
-    const slots: string[] = [];
-    let [h, m] = start.split(":").map(Number);
-    const [endH, endM] = end.split(":").map(Number);
-
-    while (h < endH || (h === endH && m < endM)) {
-      slots.push(
-        `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`,
-      );
-      m += 30;
-      if (m >= 60) {
-        m = 0;
-        h += 1;
-      }
-    }
-    return slots;
-  };
-
-  useEffect(() => {
-    const allTimes: TimeSlot[] = [];
-    const startHour = 7;
-    const endHour = 23;
-
-    const bookedSlots = bookings
-      .filter((b) => b.courtId === courtId && b.date === formattedDate)
-      .flatMap((b) => getSlotsBetween(b.startTime, b.endTime));
-
-    for (let hour = startHour; hour <= endHour; hour++) {
-      for (let min of [0, 30]) {
-        const m = min === 0 ? "00" : min;
-        const timeStr = `${hour.toString().padStart(2, "0")}:${m}`;
-        allTimes.push({
-          time: timeStr,
-          available: !bookedSlots.includes(timeStr),
+    for (let h = 7; h <= 22; h++) {
+      for (let m of [0, 30]) {
+        result.push({
+          time: `${h.toString().padStart(2, "0")}:${m === 0 ? "00" : "30"}`,
+          available: true,
         });
       }
     }
 
-    setTimes(allTimes);
-    setStartIndex(null);
-    setEndIndex(null);
-  }, [courtId, formattedDate]);
+    return result;
+  };
 
-  const handleClick = (index: number) => {
-    if (!times[index].available) return;
+  useEffect(() => {
+    async function load() {
+      const bookings = await api.getBookingsBySportAndDate(sportId, date);
 
-    if (startIndex === null) {
-      setStartIndex(index);
-      setEndIndex(index);
-    } else if (startIndex !== null && endIndex !== null) {
-      if (index < startIndex) {
-        for (let i = index; i <= endIndex; i++) {
-          if (!times[i].available) return;
+      const bookedTimes: string[] = [];
+
+      // convert bookings → time slots
+      for (const b of bookings as any[]) {
+        let [h, m] = b.startTime.split(":").map(Number);
+        const [eh, em] = b.endTime.split(":").map(Number);
+
+        while (h < eh || (h === eh && m < em)) {
+          bookedTimes.push(
+            `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`,
+          );
+
+          m += 30;
+          if (m >= 60) {
+            m = 0;
+            h++;
+          }
         }
-        setStartIndex(index);
-      } else if (index > endIndex) {
-        for (let i = startIndex; i <= index; i++) {
-          if (!times[i].available) return;
-        }
-        setEndIndex(index);
-      } else if (index === startIndex) {
-        if (startIndex === endIndex) {
-          setStartIndex(null);
-          setEndIndex(null);
-        } else {
-          setStartIndex(startIndex + 1);
-        }
-      } else if (index === endIndex) {
-        setEndIndex(endIndex - 1);
-        if (endIndex - 1 < startIndex) {
-          setStartIndex(null);
-          setEndIndex(null);
-        }
-      } else if (index > startIndex && index < endIndex) {
-        setStartIndex(null);
-        setEndIndex(null);
       }
-    }
-  };
 
-  const isSelected = (index: number) => {
-    if (startIndex === null || endIndex === null) return false;
-    return index >= startIndex && index <= endIndex;
-  };
+      const baseSlots = createSlots();
+
+      const updated = baseSlots.map((slot) => ({
+        ...slot,
+        available: !bookedTimes.includes(slot.time),
+      }));
+
+      setSlots(updated);
+    }
+
+    load();
+  }, [sportId, date]);
 
   return (
-    <div className="rounded-sm h-100 w-70 p-3 overflow-y-auto scrollbar-hide">
-      <style jsx>{`
-        div::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
-
-      {times.map((slot, index) => (
+    <div className="p-4 w-72 h-96 overflow-y-auto border rounded">
+      {slots.map((slot) => (
         <div
           key={slot.time}
-          onClick={() => handleClick(index)}
-          className={`border rounded-full h-10 w-60 mx-auto flex items-center justify-between px-4 mb-2 cursor-pointer ${
-            slot.available
-              ? "bg-white border-black  "
-              : "border-gray-300 text-gray-200 cursor-not-allowed "
+          className={`p-2 mb-2 border rounded text-center ${
+            slot.available ? "bg-white text-black" : "bg-gray-200 text-gray-400"
           }`}
         >
-          <div
-            className={`h-5 w-5 rounded-full transition-all duration-300 ease-in-out ${
-              isSelected(index) ? "bg-blue-400 scale-110" : ""
-            }`}
-          ></div>
-
-          <p
-            className={`font-medium ${
-              slot.available ? "text-black" : "text-gray-200"
-            }`}
-          >
-            {`${parseInt(slot.time.split(":")[0]) % 12 || 12}:${
-              slot.time.split(":")[1]
-            } ${parseInt(slot.time.split(":")[0]) < 12 ? "AM" : "PM"}`}
-          </p>
-
-          <div className="h-5 w-5"></div>
+          {slot.time}
         </div>
       ))}
     </div>

@@ -4,7 +4,7 @@ export const ROUTES = {
   BOOKINGS: "/booking",
   OPEN_PLAY: "/openPlay",
 
-  COURT_DETAILS: (id: number) => `/court/${id}`,
+  SPORTS_DETAILS: (id: number) => `/court/${id}`,
   SCHEDULE: (id: number) => `/court/${id}/`,
   TIME: (id: number) => `/court/${id}/time`,
   AVAILABLE: (id: number) => `/court/${id}/time/available`,
