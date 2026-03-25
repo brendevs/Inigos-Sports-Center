@@ -42,7 +42,7 @@ const slots: Slot[] = [
 
 export default function TimePickerUI() {
   return (
-    <div className="p-4 w-72 h-77 overflow-y-auto border rounded-md">
+    <div className="p-4 w-72 h-77 overflow-y-auto border rounded-md ">
       {slots.map((slot) => (
         <div
           key={slot.time}
