@@ -6,6 +6,5 @@ export const ROUTES = {
 
   SPORTS_DETAILS: (id: number) => `/court/${id}`,
   SCHEDULE: (id: number) => `/court/${id}/`,
-  TIME: (id: number) => `/court/${id}/time`,
-  AVAILABLE: (id: number) => `/court/${id}/time/available`,
+  AVAILABLE: (id: number) => `/court/${id}/available`,
 };

@@ -5,6 +5,12 @@ type Slot = {
   available: boolean;
 };
 
+interface Props {
+  blank?: boolean; // true when no date is selected
+  selectedTime?: string;
+  onSelectTime?: (time: string) => void;
+}
+
 // static sample data (UI only)
 const slots: Slot[] = [
   { time: "07:00", available: true },
@@ -40,19 +46,54 @@ const slots: Slot[] = [
   { time: "22:00", available: true },
 ];
 
-export default function TimePickerUI() {
+export default function TimePickerUI({
+  blank = false,
+  selectedTime,
+  onSelectTime,
+}: Props) {
   return (
-    <div className="p-4 w-72 h-77 overflow-y-auto border rounded-md ">
-      {slots.map((slot) => (
-        <div
-          key={slot.time}
-          className={`p-2 mb-2 border rounded text-center ${
-            slot.available ? "bg-white text-black" : "bg-gray-200 text-gray-400"
-          }`}
-        >
-          {slot.time}
+    <div className="p-4 w-72 h-95 overflow-y-auto border rounded-md relative">
+      {blank ? (
+        <div className="flex items-center justify-center h-full">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 26 26"
+            stroke-width="1.5"
+            stroke="currentColor"
+            className="size-6 text-red-500"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+            />
+          </svg>
+
+          <p className="text-gray-500 text-sm font-medium text-center">
+            Select a date
+          </p>
         </div>
-      ))}
+      ) : (
+        // Show time slots when a date is selected
+        slots.map((slot) => (
+          <div
+            key={slot.time}
+            onClick={() => {
+              if (slot.available && onSelectTime) {
+                onSelectTime(slot.time);
+              }
+            }}
+            className={`p-2 mb-2 border rounded text-center ${
+              slot.available
+                ? "bg-white text-black cursor-pointer"
+                : "bg-gray-200 text-gray-400 cursor-not-allowed"
+            } ${selectedTime === slot.time ? "border-orange-600 border-2" : ""}`}
+          >
+            {slot.time}
+          </div>
+        ))
+      )}
     </div>
   );
 }

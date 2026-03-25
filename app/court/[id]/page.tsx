@@ -9,21 +9,29 @@ import TimePickerUI from "@/app/components/Other/timePicker";
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<string | undefined>(
+    undefined,
+  );
   const router = useRouter();
+
   return (
-    <div className="p-10 bg-gray-50 flex flex-col gap-6 bg-white font-sans">
-      <div className="flex flex-row md:flex-row gap-5 ">
-        <div className="flex gap-2">
+    <div className="flex flex-col min-h-screen bg-white font-sans">
+      {/* Header */}
+      <div className="p-5 md:p-10 flex flex-row items-center gap-3">
+        <div className="flex gap-2 items-center">
           <Link className="flex gap-2" href={ROUTES.COURTS}>
-            <h1 className="text-1xl text-gray-300 font-md font-sans">Courts</h1>
+            <h1 className="text-sm md:text-base text-gray-300 font-medium">
+              Courts
+            </h1>
           </Link>
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="h-5 w-5 text-gray-400 cursor-pointer mt-0.5"
+            className="h-5 w-5 text-gray-400"
           >
             <path
               strokeLinecap="round"
@@ -33,18 +41,24 @@ export default function Schedule() {
           </svg>
         </div>
 
-        <h1 className="text-1xl font-semibold font-sans">Schedule</h1>
+        <h1 className="text-sm md:text-base font-semibold">Schedule</h1>
       </div>
 
-      <div className="flex  justify-center gap-10">
-        <div className="flex-col">
-          <div className="h-auto w-70">
+      {/* Main Content */}
+      <div className="flex flex-col lg:flex-row flex-grow items-center lg:items-start justify-center gap-6 md:gap-10 px-5 md:px-10">
+        {/* Left Section (Date Picker) */}
+        <div className="flex flex-col items-center w-full max-w-sm">
+          <div className="w-full">
             <DatePickerDemo
               selected={selectedDate || new Date()}
-              onSelect={setSelectedDate}
+              onSelect={(date) => {
+                setSelectedDate(date);
+                setSelectedTime(undefined); // reset time when date changes
+              }}
             />
           </div>
-          <p className="text-center mt-3 text-gray-400">
+
+          <p className="text-center mt-3 text-gray-400 text-sm px-2">
             {selectedDate
               ? `on ${selectedDate.toLocaleDateString("en-US", {
                   weekday: "long",
@@ -54,27 +68,36 @@ export default function Schedule() {
                 })}`
               : "Please select your date."}
           </p>
+        </div>
 
-          {/* Back button */}
-          <div className="mt-4 flex justify-center ">
-            <button
-              onClick={() => router.push(ROUTES.TIME(1))}
-              disabled={!selectedDate}
-              className={`h-10 w-32 rounded-md flex justify-center items-center shadow-md
-    ${
-      selectedDate
-        ? "bg-orange-600 cursor-pointer"
-        : "bg-gray-300 cursor-not-allowed"
-    }
-  `}
-            >
-              <p className="font-sans text-white text-sm">Apply</p>
-            </button>
-          </div>
+        {/* Right Section (Time Picker) */}
+        <div className="w-full max-w-sm flex justify-center">
+          {!selectedDate ? (
+            <TimePickerUI blank />
+          ) : (
+            <TimePickerUI
+              selectedTime={selectedTime}
+              onSelectTime={setSelectedTime}
+            />
+          )}
         </div>
-        <div className="flex item-center justify-center">
-          <TimePickerUI></TimePickerUI>
-        </div>
+      </div>
+
+      {/* Footer Apply Button */}
+      <div className="sticky bottom-0 w-full bg-white p-5 md:p-5 border-t flex justify-center">
+        <button
+          onClick={() => router.push(ROUTES.AVAILABLE(1))}
+          disabled={!selectedDate || !selectedTime} // requires both date & time
+          className={`h-10 w-full max-w-sm rounded-md flex justify-center items-center shadow-md transition
+            ${
+              selectedDate && selectedTime
+                ? "bg-orange-600 hover:bg-orange-700"
+                : "bg-gray-300 cursor-not-allowed"
+            }
+          `}
+        >
+          <p className="text-white text-sm">Apply</p>
+        </button>
       </div>
     </div>
   );

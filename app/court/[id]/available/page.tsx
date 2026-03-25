@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import { ROUTES } from "../../../../src/constant/routes";
+import { ROUTES } from "../../../src/constant/routes";
 import { useState, useRef, useEffect } from "react";
 
 export default function Available() {
@@ -37,7 +37,7 @@ export default function Available() {
           <div className="flex items-center gap-2">
             <Link
               className="text-1xl text-gray-300 font-md font-sans"
-              href={ROUTES.TIME(id)}
+              href={ROUTES.SCHEDULE(id)}
             >
               Schedule
             </Link>
