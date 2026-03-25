@@ -78,11 +78,16 @@ export default function Header() {
               ${open ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
             `}
           >
-            <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
+            <div className="border-b">
+              <p className="w-full text-left text-xs  px-4 py-2 hover:bg-gray-100">
+                My account
+              </p>
+            </div>
+            <button className="w-full text-left text-sm px-4 py-2 hover:bg-gray-100">
               Profile
             </button>
 
-            <button className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100">
+            <button className="w-full text-left text-sm px-4 py-2 text-red-500 hover:bg-gray-100">
               Logout
             </button>
           </div>

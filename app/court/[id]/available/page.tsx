@@ -75,8 +75,8 @@ export default function Available() {
             <div className="relative w-65 h-100 rounded-3xl text-gray-500 text-sm shadow-xl overflow-hidden">
               <div className="h-[50%]"></div>
 
-              <div className="h-[50%] bg-gray-500/10 backdrop-blur-sm">
-                <p className="text-white font-bold text-md mt-4 mx-4">
+              <div className="h-[50%] bg-gray-700/10 backdrop-blur-sm">
+                <p className="text-white font-bold text-md mt-4 mx-4 pt-2">
                   COURT 1
                 </p>
 

@@ -6,15 +6,14 @@ type Slot = {
 };
 
 interface Props {
-  blank?: boolean; // true when no date is selected
-  selectedTime?: string;
-  onSelectTime?: (time: string) => void;
+  blank?: boolean;
+  selectedRange?: string[];
+  onSelectRange?: (range: string[]) => void;
 }
 
-// static sample data (UI only)
 const slots: Slot[] = [
   { time: "07:00", available: true },
-  { time: "07:30", available: false },
+  { time: "07:30", available: true },
   { time: "08:00", available: true },
   { time: "08:30", available: true },
   { time: "09:00", available: false },
@@ -48,20 +47,54 @@ const slots: Slot[] = [
 
 export default function TimePickerUI({
   blank = false,
-  selectedTime,
-  onSelectTime,
+  selectedRange = [],
+  onSelectRange,
 }: Props) {
+  const handleClick = (index: number) => {
+    if (!onSelectRange) return;
+
+    const clicked = slots[index];
+
+    // 🔥 restart if already selected
+    if (selectedRange.length >= 2) {
+      onSelectRange([clicked.time]);
+      return;
+    }
+
+    // first click
+    if (selectedRange.length === 0) {
+      onSelectRange([clicked.time]);
+      return;
+    }
+
+    // second click → build range
+    const startIndex = slots.findIndex((s) => s.time === selectedRange[0]);
+
+    const [min, max] =
+      startIndex < index ? [startIndex, index] : [index, startIndex];
+
+    const range = slots.slice(min, max + 1);
+
+    // ❌ block unavailable
+    if (range.some((s) => !s.available)) {
+      alert("Cannot select unavailable slot");
+      return;
+    }
+
+    onSelectRange(range.map((s) => s.time));
+  };
+
   return (
-    <div className="p-4 w-72 h-95 overflow-y-auto border rounded-md relative">
+    <div className="p-4 w-72 h-80 overflow-y-auto border rounded-md">
       {blank ? (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex items-center justify-center h-full ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
-            viewBox="0 0 26 26"
+            viewBox="0 0 30 30"
             stroke-width="1.5"
             stroke="currentColor"
-            className="size-6 text-red-500"
+            className="size-6 mt-1 text-red-600"
           >
             <path
               stroke-linecap="round"
@@ -70,29 +103,33 @@ export default function TimePickerUI({
             />
           </svg>
 
-          <p className="text-gray-500 text-sm font-medium text-center">
-            Select a date
-          </p>
+          <p className="text-gray-500 text-sm">Select a date</p>
         </div>
       ) : (
-        // Show time slots when a date is selected
-        slots.map((slot) => (
-          <div
-            key={slot.time}
-            onClick={() => {
-              if (slot.available && onSelectTime) {
-                onSelectTime(slot.time);
-              }
-            }}
-            className={`p-2 mb-2 border rounded text-center ${
-              slot.available
-                ? "bg-white text-black cursor-pointer"
-                : "bg-gray-200 text-gray-400 cursor-not-allowed"
-            } ${selectedTime === slot.time ? "border-orange-600 border-2" : ""}`}
-          >
-            {slot.time}
-          </div>
-        ))
+        slots.map((slot, index) => {
+          const isSelected = selectedRange.includes(slot.time);
+
+          return (
+            <div
+              key={slot.time}
+              onClick={() => {
+                if (slot.available) handleClick(index);
+              }}
+              className={`p-2 mb-2 border rounded text-center transition
+                ${
+                  slot.available
+                    ? "cursor-pointer bg-white"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                }
+                ${
+                  isSelected ? "bg-orange-500 text-black border-orange-600" : ""
+                }
+              `}
+            >
+              {slot.time}
+            </div>
+          );
+        })
       )}
     </div>
   );
