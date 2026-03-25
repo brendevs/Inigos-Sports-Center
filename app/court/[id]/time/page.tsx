@@ -43,7 +43,7 @@ export default function Time() {
 
       <div className="flex justify-center gap-10">
         <div className="flex-col justify-center">
-          <TimePicker courtId={id} date={new Date()} /> {/* ✅ FIXED */}
+          <TimePicker />
         </div>
       </div>
 

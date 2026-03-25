@@ -1,76 +1,48 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { api } from "../../../mockBackend/api";
-
 type Slot = {
   time: string;
   available: boolean;
 };
 
-interface Props {
-  sportId: number;
-  date: string;
-}
+// static sample data (UI only)
+const slots: Slot[] = [
+  { time: "07:00", available: true },
+  { time: "07:30", available: false },
+  { time: "08:00", available: true },
+  { time: "08:30", available: true },
+  { time: "09:00", available: false },
+  { time: "09:30", available: true },
+  { time: "10:00", available: true },
+  { time: "10:30", available: false },
+  { time: "11:00", available: true },
+  { time: "11:30", available: true },
+  { time: "12:00", available: false },
+  { time: "12:30", available: true },
+  { time: "13:00", available: true },
+  { time: "13:30", available: false },
+  { time: "14:00", available: true },
+  { time: "14:30", available: true },
+  { time: "15:00", available: false },
+  { time: "15:30", available: true },
+  { time: "16:00", available: true },
+  { time: "16:30", available: false },
+  { time: "17:00", available: true },
+  { time: "17:30", available: true },
+  { time: "18:00", available: false },
+  { time: "18:30", available: true },
+  { time: "19:00", available: true },
+  { time: "19:30", available: false },
+  { time: "20:00", available: true },
+  { time: "20:30", available: true },
+  { time: "21:00", available: false },
+  { time: "21:30", available: true },
+  { time: "22:00", available: true },
+];
 
-export default function TimePicker({ sportId, date }: Props) {
-  const [slots, setSlots] = useState<Slot[]>([]);
-
-  // 1. create all slots
-  const createSlots = () => {
-    const result: Slot[] = [];
-
-    for (let h = 7; h <= 22; h++) {
-      for (let m of [0, 30]) {
-        result.push({
-          time: `${h.toString().padStart(2, "0")}:${m === 0 ? "00" : "30"}`,
-          available: true,
-        });
-      }
-    }
-
-    return result;
-  };
-
-  useEffect(() => {
-    async function load() {
-      const bookings = await api.getBookingsBySportAndDate(sportId, date);
-
-      const bookedTimes: string[] = [];
-
-      // convert bookings → time slots
-      for (const b of bookings as any[]) {
-        let [h, m] = b.startTime.split(":").map(Number);
-        const [eh, em] = b.endTime.split(":").map(Number);
-
-        while (h < eh || (h === eh && m < em)) {
-          bookedTimes.push(
-            `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`,
-          );
-
-          m += 30;
-          if (m >= 60) {
-            m = 0;
-            h++;
-          }
-        }
-      }
-
-      const baseSlots = createSlots();
-
-      const updated = baseSlots.map((slot) => ({
-        ...slot,
-        available: !bookedTimes.includes(slot.time),
-      }));
-
-      setSlots(updated);
-    }
-
-    load();
-  }, [sportId, date]);
-
+export default function TimePickerUI() {
   return (
-    <div className="p-4 w-72 h-96 overflow-y-auto border rounded">
+    <div className="p-4 w-72 h-77 overflow-y-auto border rounded-md">
       {slots.map((slot) => (
         <div
           key={slot.time}

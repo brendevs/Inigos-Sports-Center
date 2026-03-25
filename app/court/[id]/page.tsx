@@ -5,6 +5,7 @@ import { useState } from "react";
 import { DatePickerDemo } from "../../components/Shadcn/datePicker";
 import { ROUTES } from "../../src/constant/routes";
 import { useRouter } from "next/navigation";
+import TimePickerUI from "@/app/components/Other/timePicker";
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -43,17 +44,36 @@ export default function Schedule() {
               onSelect={setSelectedDate}
             />
           </div>
-          <p className="text-center mt-3 text-gray-400 ">Select your date.</p>
+          <p className="text-center mt-3 text-gray-400">
+            {selectedDate
+              ? `on ${selectedDate.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}`
+              : "Please select your date."}
+          </p>
 
           {/* Back button */}
           <div className="mt-4 flex justify-center ">
             <button
               onClick={() => router.push(ROUTES.TIME(1))}
-              className="bg-orange-600 h-10 w-32 rounded-md flex justify-center items-center cursor-pointer shadow-md"
+              disabled={!selectedDate}
+              className={`h-10 w-32 rounded-md flex justify-center items-center shadow-md
+    ${
+      selectedDate
+        ? "bg-orange-600 cursor-pointer"
+        : "bg-gray-300 cursor-not-allowed"
+    }
+  `}
             >
-              <p className="font-sans text-white text-sm">Next</p>
+              <p className="font-sans text-white text-sm">Apply</p>
             </button>
           </div>
+        </div>
+        <div className="flex item-center justify-center">
+          <TimePickerUI></TimePickerUI>
         </div>
       </div>
     </div>

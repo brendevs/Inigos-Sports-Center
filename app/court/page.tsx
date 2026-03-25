@@ -14,7 +14,6 @@ export default function CourtsPage() {
 
   return (
     <div className="p-6 bg-gray-50">
-      {/* FIX: only structure, no style change */}
       <h1 className="w-full text-xl font-bold text-gray-800 mt-4 ml-4">
         Courts
       </h1>
