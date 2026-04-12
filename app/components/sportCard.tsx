@@ -34,7 +34,7 @@ export default function SportCard({ sport }: Props) {
           <p className="text-red-400">0</p>
         </div>
       </div>
-      <Link href={ROUTES.SPORTS_DETAILS(sport.id)}>
+      <Link href={ROUTES.COURT_DETAILS(sport.id)}>
         <div className="mt-2 bg-orange-600 h-10 w-full rounded-md flex justify-center items-center cursor-pointer transition-colors duration-400 hover:bg-black">
           <p className="font-sans text-white text-xs transition-colors duration-300 hover:text-black">
             Book Now

@@ -1,10 +1,13 @@
 export const ROUTES = {
-  HOME: "/",
+  LOGIN: "/login",
+  HOME: "/home",
+
   COURTS: "/court",
   BOOKINGS: "/booking",
   OPEN_PLAY: "/openPlay",
 
-  SPORTS_DETAILS: (id: number) => `/court/${id}`,
-  SCHEDULE: (id: number) => `/court/${id}/`,
-  AVAILABLE: (id: number) => `/court/${id}/available`,
+  // dynamic routes
+  COURT_DETAILS: (id: number) => `/court/${id}`,
+  COURT_SCHEDULE: (id: number) => `/court/${id}/schedule`,
+  COURT_AVAILABLE: (id: number) => `/court/${id}/available`,
 };

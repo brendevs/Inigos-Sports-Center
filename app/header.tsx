@@ -1,11 +1,15 @@
 "use client";
+
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ROUTES } from "./src/constant/routes";
+import { removeToken } from "@/app/lib/auth";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -13,6 +17,7 @@ export default function Header() {
         setOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -20,7 +25,7 @@ export default function Header() {
   return (
     <div className="flex flex-col w-full gap-4 bg-white p-4 md:p-8 shadow-lg items-center sticky top-0 z-50 border-b">
       <div className="flex justify-between items-center w-full">
-        {/* Logo */}
+        {/* LOGO */}
         <p
           style={{ fontFamily: "Satisfy" }}
           className="text-xl md:text-2xl text-orange-600"
@@ -28,7 +33,7 @@ export default function Header() {
           Iñigos
         </p>
 
-        {/* Nav */}
+        {/* NAV */}
         <div className="flex gap-4 md:gap-10 items-center text-xs md:text-base">
           {/* COURT */}
           <Link href={ROUTES.COURTS}>
@@ -48,7 +53,7 @@ export default function Header() {
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
-                stroke="Black"
+                stroke="black"
                 className="size-6"
               >
                 <path
@@ -57,37 +62,45 @@ export default function Header() {
                   d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
                 />
               </svg>
-
               <p>BOOKINGS</p>
             </div>
           </Link>
         </div>
 
-        {/* Avatar */}
+        {/* AVATAR */}
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setOpen(!open)}
-            className="w-8 h-8 md:w-10 md:h-10 bg-gray-300 rounded-full 
-                       focus:outline-none active:scale-95 transition"
+            className="w-8 h-8 md:w-10 md:h-10 bg-gray-300 rounded-full"
           />
 
-          {/* Dropdown */}
+          {/* DROPDOWN */}
           <div
-            className={`absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg py-2
-              transform transition-all duration-200 origin-top-right
-              ${open ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
-            `}
+            className={`absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg py-2 transition-all duration-200 origin-top-right ${
+              open
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-95 pointer-events-none"
+            }`}
           >
             <div className="border-b">
-              <p className="w-full text-left text-xs  px-4 py-2 hover:bg-gray-100">
-                My account
-              </p>
+              <p className="px-4 py-2 text-xs text-gray-500">My account</p>
             </div>
-            <button className="w-full text-left text-sm px-4 py-2 hover:bg-gray-100">
+
+            <button
+              onClick={() => router.push("/home")}
+              className="w-full text-left text-sm px-4 py-2 hover:bg-gray-100"
+            >
               Profile
             </button>
 
-            <button className="w-full text-left text-sm px-4 py-2 text-red-500 hover:bg-gray-100">
+            <button
+              onClick={() => {
+                removeToken();
+                router.replace("/login");
+                setOpen(false);
+              }}
+              className="w-full text-left text-sm px-4 py-2 text-red-500 hover:bg-gray-100"
+            >
               Logout
             </button>
           </div>

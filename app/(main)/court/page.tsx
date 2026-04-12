@@ -1,9 +1,9 @@
 "use client";
 
-import SportCard from "../components/sportCard";
-import { api } from "../../mockBackend/api";
+import SportCard from "@/app/components/sportCard";
+import { api } from "@/mockBackend/api";
 import { useEffect, useState } from "react";
-import type { Sport } from "../../mockBackend/types";
+import type { Sport } from "@/mockBackend/types";
 
 export default function CourtsPage() {
   const [sports, setSports] = useState<Sport[]>([]);

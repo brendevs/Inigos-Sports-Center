@@ -1,11 +1,23 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ROUTES } from "../../../src/constant/routes";
+import { ROUTES } from "@/app/src/constant/routes";
 import { useState, useRef, useEffect } from "react";
+import { getToken } from "@/app/lib/auth"; // Update path to correct location where getToken is exported
 
 export default function Available() {
+  const router = useRouter();
+
+  // AUTH GUARD (CLIENT SAFE)
+  useEffect(() => {
+    const token = getToken();
+
+    if (!token) {
+      router.push("/login");
+    }
+  }, [router]);
+
   const params = useParams();
   const id = Number(params.id);
 
@@ -35,7 +47,7 @@ export default function Available() {
         <div className="flex gap-2 items-center">
           <Link
             className="text-md text-gray-300 font-md font-sans"
-            href={ROUTES.SCHEDULE(id)}
+            href={ROUTES.COURT_SCHEDULE(id)}
           >
             Schedule
           </Link>
@@ -59,20 +71,10 @@ export default function Available() {
         <h1 className="text-1xl font-semibold">Available</h1>
       </div>
 
-      {/* Card wrapper (ONLY RESPONSIVE CHANGE) */}
+      {/* Card */}
       <div className="flex flex-col md:flex-row justify-center items-center mt-5 gap-6">
         <div
-          className="
-            flex 
-            h-100 
-            w-full 
-            max-w-[260px] 
-            md:w-65 
-            rounded-3xl 
-            bg-cover 
-            relative 
-            justify-center
-          "
+          className="flex h-100 w-full max-w-[260px] md:w-65 rounded-3xl bg-cover relative justify-center"
           style={{
             backgroundImage:
               "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmRD6NwysCRmggetUCba_FEiKvKNhth8Wb9w&s')",
@@ -102,7 +104,6 @@ export default function Available() {
                   <p className="text-xs mt-1 text-gray-100">per hour</p>
                 </div>
 
-                {/* Reserve Button */}
                 <div
                   onClick={() => setOpenModal(true)}
                   className="bg-white h-8 rounded-2xl shadow-xl mt-6 cursor-pointer flex justify-center items-center hover:bg-gray-100 transition"
@@ -121,14 +122,12 @@ export default function Available() {
         Select Available Court.
       </p>
 
-      {/* Modal (unchanged) */}
+      {/* Modal */}
       {openModal && (
         <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
           <div
             ref={modalRef}
-            className={`bg-white w-80 rounded-2xl p-6 shadow-xl transform transition-all duration-200
-              ${openModal ? "scale-100 opacity-100" : "scale-95 opacity-0"}
-            `}
+            className="bg-white w-80 rounded-2xl p-6 shadow-xl transform transition-all duration-200 scale-100 opacity-100"
           >
             <h2 className="text-lg font-semibold mb-4">Payment</h2>
 
@@ -152,6 +151,7 @@ export default function Available() {
               >
                 Cancel
               </button>
+
               <button
                 onClick={() => {
                   alert("Payment processing...");
