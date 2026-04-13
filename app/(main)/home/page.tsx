@@ -2,23 +2,26 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getToken } from "@/app/lib/auth";
+import { auth } from "@/app/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = getToken();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.replace("/login");
+      }
+    });
 
-    if (!token) {
-      router.push("/login");
-    }
+    return () => unsubscribe();
   }, [router]);
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold">Home Dashboard 🏠</h1>
-      <p>Welcome! You are logged in.</p>
+      <h1 className="text-3xl font-bold">Home 🏠</h1>
+      <p>You are logged in</p>
     </div>
   );
 }

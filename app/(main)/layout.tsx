@@ -2,8 +2,9 @@
 
 import Header from "../header";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { getToken } from "@/app/lib/auth";
+import { useEffect, useState } from "react";
+import { auth } from "@/app/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function MainLayout({
   children,
@@ -11,12 +12,21 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!getToken()) {
-      router.replace("/login");
-    }
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        router.replace("/login");
+      } else {
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  if (loading) return null; // or loading screen
 
   return (
     <>

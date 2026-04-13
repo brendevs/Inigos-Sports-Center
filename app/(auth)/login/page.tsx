@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { setToken } from "@/app/lib/auth"; // adjust if needed
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "@/app/lib/firebase";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,19 +15,26 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      alert("Please fill all fields");
-      return;
+  const handleSignup = async () => {
+    try {
+      setLoading(true);
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    setLoading(true);
-
-    // simulate login (replace later with real API)
-    setToken();
-
-    // redirect without allowing back to login
-    router.replace("/home");
+  const handleLogin = async () => {
+    try {
+      setLoading(true);
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (err: any) {
+      alert(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,17 +42,16 @@ export default function LoginPage() {
       <h1 className="text-2xl font-bold">Login</h1>
 
       <input
-        type="email"
-        placeholder="Email"
         className="border p-2 w-64"
+        placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
-        type="password"
-        placeholder="Password"
         className="border p-2 w-64"
+        placeholder="Password"
+        type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
@@ -51,7 +61,15 @@ export default function LoginPage() {
         disabled={loading}
         className="bg-black text-white px-4 py-2 w-64"
       >
-        {loading ? "Logging in..." : "Login"}
+        Login
+      </button>
+
+      <button
+        onClick={handleSignup}
+        disabled={loading}
+        className="bg-gray-700 text-white px-4 py-2 w-64"
+      >
+        Sign Up
       </button>
     </div>
   );

@@ -4,19 +4,9 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ROUTES } from "@/app/src/constant/routes";
 import { useState, useRef, useEffect } from "react";
-import { getToken } from "@/app/lib/auth"; // Update path to correct location where getToken is exported
 
 export default function Available() {
   const router = useRouter();
-
-  // AUTH GUARD (CLIENT SAFE)
-  useEffect(() => {
-    const token = getToken();
-
-    if (!token) {
-      router.push("/login");
-    }
-  }, [router]);
 
   const params = useParams();
   const id = Number(params.id);
