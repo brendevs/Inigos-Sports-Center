@@ -95,7 +95,7 @@ export default function Header() {
             </div>
 
             <button
-              onClick={() => router.push("/home")}
+              onClick={() => router.push("/profile")}
               className="w-full text-left text-sm px-4 py-2 hover:bg-gray-100"
             >
               Profile
